@@ -1,0 +1,40 @@
+{%extends "homepage.html"%}
+{%block content%}
+<form method="post">
+    <h1>View Details</h1>
+    {%csrf_token%}
+    <table class="table">
+        <tr>
+            <td>Product Name</td>
+            <td>{{product.product_name}}
+                <input type="hidden" name="product_id" value="{{product.id}}">
+            </td>
+        </tr>
+        <tr>
+            <td>Product Price</td>
+            <td>{{product.price}}</td>
+        </tr>
+        <tr>
+            <td>Product Description</td>
+            <td>{{product.description}}</td>
+        </tr>
+        <tr>
+            <td>Product Image</td>
+            <td><img src="{{product.image.url}}" class="img" style="height:150px;width: 150px;"> </td>
+        </tr>
+        <tr>
+            <td>Select Quantity</td>
+            <td><select name="quantity" class="form-control">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select></td>
+        </tr>
+        <tr>
+            <td><button type="submit" class="button btn-danger" form-control">Add to Cart</button></td>
+        </tr>
+    </table>
+</form>
+{%endblock%}

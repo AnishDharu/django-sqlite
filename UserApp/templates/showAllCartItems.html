@@ -1,0 +1,66 @@
+{%extends "homepage.html"%}
+{%block content%}
+
+<script type="text/javascript">
+    function increment(tid) 
+    {
+        txtQty = document.getElementById(tid);
+        x = parseInt(txtQty.value);
+        if (x < 10) {
+            txtQty.value = x + 1;
+        }
+    }
+
+    function decrement(tid) 
+    {
+        txtQty = document.getElementById(tid);
+        x = parseInt(txtQty.value);
+        if (x > 1) {
+            txtQty.value = x - 1;
+        }
+    }
+</script>
+
+<h1>Cart Items</h1>
+
+<table class="table">
+    <tr>
+        <th>Product Name</th>
+        <th>Product Price</th>
+        <th>Image</th>
+        <th>Quantity</th>
+        <th>Subtotal</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    {%for item in items%}
+    <form method="post">
+        {%csrf_token%}
+        <tr>
+            <td><input type="hidden" name="item_id" value="{{item.id}}" />
+                {{item.product.product_name}}</td>
+            <td>{{item.product.price}}</td>
+            <td><img src="{{item.product.image.url}}" class="image" style="width:60px; height:60px" /></td>
+            <td>
+                <button type="button" class="button btn-warning" onclick="decrement('quantity{{item.product_id}}')">-</button>
+
+                <input type="text" id="quantity{{item.product_id}}" value="{{item.quantity}}" name="quantity" size="3" />
+                <button type="button" class="button btn-warning" onclick="increment('quantity{{item.product_id}}')">+</button>
+            </td>
+            <td>{% widthratio item.product.price 1 item.quantity %}</td>
+            <td>
+                <button class="button btn-success" type="submit" name="action" value="edit">
+                    <span class="glyphicon glyphicon-edit"></span></button>
+            </td>
+            <td>
+                <button class="button btn-danger" type="submit" name="action" value="delete">
+                    <span class="glyphicon glyphicon-trash"></span></button>
+            </td>
+        </tr>
+    </form>
+    {%endfor%}
+</table>
+<h1>Total Amount: {{request.session.total}}</h1>
+<hr>
+<h1><a href="/makepayment"><button type="button" class="button btn-danger ">Make Payment</button></a></h1>
+{%endblock%}

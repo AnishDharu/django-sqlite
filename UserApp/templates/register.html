@@ -1,0 +1,35 @@
+{%extends "homepage.html"%}
+{%block content%}
+
+{% if success_msg %}
+    <p style="color: red;">{{ success_msg }} !!!<br>
+        Click here to <a href="/login">Login </a></p>
+{% endif %}
+
+{% if err %}
+    <p style="color: red;">{{ err }}</p>
+{% endif %}
+<h1>Register</h1>
+<form method="post">
+    {%csrf_token%}
+<table class="table" >
+    <tr>
+        <td>Login ID </td>
+        <td><input type="text" name="uname"></td>
+    </tr>
+    <tr>
+        <td>Password</td>
+        <td><input type="password" name="pwd"></td>
+    </tr>
+    <tr>
+        <td>Email</td>
+        <td><input type="email" name="email"></td>
+    </tr>
+    <tr>
+        <td colspan="2" ><button class="button btn-success" type="submit" >Register</button></td>
+    </tr>
+    
+</table>
+</form>
+
+{%endblock%}
