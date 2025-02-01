@@ -24,9 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-pr53aud7_h8evg*-oa7ejnw-plzqe@*cvf3uw-%3k0x03vbub2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+DEBUG = False
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -43,6 +42,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'E_Commerce.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'eCommerce.db',
+        'NAME': BASE_DIR / 'eCommerce.db',
     }
 }
 
@@ -114,16 +114,24 @@ USE_I18N = True
 USE_TZ = True
 
 
+
+
+
+STORAGES = {
+    # ...
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
-SITE_ROOT = "/"
-MEDIA_ROOT = os.path.join(SITE_ROOT,'')
-MEDIA_URL = '/'
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+MEDIA_ROOT = [BASE_DIR,'media']
+MEDIA_URL = '/media/'
 
-STATIC_ROOT = os.path.join(SITE_ROOT,'static')
-STATICFILES_DIRS = (os.path.join(BASE_DIR,"static"),)
+STATICFILES_DIRS = [BASE_DIR/'static']
 
 
 # Default primary key field type
